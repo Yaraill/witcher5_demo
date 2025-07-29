@@ -11,7 +11,6 @@ class Player(pygame.sprite.Sprite):
         self.player_index = 0
         self.player_jump = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/Player/jump.png").convert_alpha() 
 
-
         self.image = self.player_walk[self.player_index]
         self.rect = self.image.get_rect(midbottom = (80,300))
         self.gravity = 0
@@ -106,7 +105,7 @@ def collisions(player,obstacles):
         for obstacle_rect in obstacles:
             if player.colliderect(obstacle_rect):
                 return False
-            
+        
     return True
 
 def collision_sprite():
@@ -136,7 +135,6 @@ score = 0
 bg_Music = pygame.mixer.Sound("C:/Kodlama/UltimatePygameIntro-main/audio/music.wav")
 bg_Music.play(loops = -1)
 bg_Music.set_volume(0.2)
-
 # Groups 
 player = pygame.sprite.GroupSingle()
 player.add(Player())
@@ -145,17 +143,12 @@ Obstacle_group = pygame.sprite.Group()
 
 sky_surface = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/Sky.png").convert()
 ground_surface = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/ground.png").convert()
-
-# score_surf = test_font.render("My Game", False, (64,64,64))
-# score_rect = score_surf.get_rect(center = (400, 50))
-
 # Snail
 snail_frame_1 = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/snail/snail1.png").convert_alpha()
 snail_frame_2 = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/snail/snail2.png").convert_alpha()
 snail_frames = [snail_frame_1,snail_frame_2]
 snail_frame_index = 0
 snail_surf = snail_frames[snail_frame_index]
-
 # Fly
 fly_frame_1 = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/Fly/Fly1.png").convert_alpha()
 fly_frame_2 = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/Fly/Fly2.png").convert_alpha()
@@ -174,7 +167,6 @@ player_jump = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/Pl
 player_surf = player_walk[player_index]
 player_rect = player_surf.get_rect(midbottom = (80,300))
 player_gravity = 0
-
 # Intro Screen
 player_stand = pygame.image.load("C:/Kodlama/UltimatePygameIntro-main/graphics/Player/player_stand.png")
 player_stand = pygame.transform.rotozoom(player_stand,0,2) 
@@ -216,14 +208,10 @@ while True:
                 pygame.time.set_timer(snail_animation_timer,500)
                 pygame.time.set_timer(fly_animation_timer,200)
 
-
         if game_active:
             if event.type == obstacle_timer:
                 Obstacle_group.add(Obstacle(choice(["fly","snail","snail","snail"])))
-                # if randint(0,2):
-                #     obstacle_rect_list.append(snail_surf.get_rect(bottomright = (randint(900,1100), 300)))
-                # else:
-                #     obstacle_rect_list.append(fly_surf.get_rect(bottomright = (randint(900,1100), 210)))
+
             if event.type == snail_animation_timer:
                 if snail_frame_index == 0:  snail_frame_index = 1
                 else: snail_frame_index = 0
@@ -234,39 +222,19 @@ while True:
                 else: fly_frame_index = 0
                 fly_surf = fly_frames[fly_frame_index]
 
-
     if game_active:
         screen.blit(sky_surface, (0,0))
         screen.blit(ground_surface, (0,300))
-        # pygame.draw.rect(screen, "#c0e8ec", score_rect)
-        # screen.blit(score_surf, score_rect)
         score = display_score()
-
-        # snail_rect.x -= 5
-        # if snail_rect.right <= 0: snail_rect.left = 800
-        # screen.blit(snail_surf, snail_rect)
-
         # Player
-        # player_gravity += 1
-        # player_rect.y += player_gravity
-        # if player_rect.bottom >= 300: player_rect.bottom = 300
-        # player_animation()
-        # screen.blit(player_surf, player_rect)
         player.draw(screen)
         player.update()
-
         Obstacle_group.draw(screen)
         Obstacle_group.update()
-
-        # Obstacle Movement
-        # obstacle_rect_list = obstacle_movement(obstacle_rect_list)
-
         # Collision
         game_active = collision_sprite()
-        # game_active = collisions(player_rect,obstacle_rect_list)
-      
     # Oyun sonu ekranı
-    else:              
+    else:            
         screen.fill((94,129,162))
         screen.blit(player_stand, player_stand_rect)
         obstacle_rect_list.clear()
@@ -282,8 +250,5 @@ while True:
         else:
             screen.blit(score_message,score_message_rect)
 
-
     pygame.display.update()
     clock.tick(60)
-
-
